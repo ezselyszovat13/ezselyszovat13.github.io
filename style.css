@@ -114,8 +114,13 @@ a:hover {
 .section-lead {
     font-size: 1.125rem;
     color: var(--color-gray);
-    white-space: nowrap;
     margin-bottom: 64px;
+}
+
+@media (min-width: 992px) {
+    .section-lead {
+        white-space: nowrap;
+    }
 }
 
 /* ===== Navigation ===== */
