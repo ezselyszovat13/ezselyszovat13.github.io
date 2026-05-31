@@ -719,12 +719,36 @@ a:hover {
 
 .project-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
     padding: 40px 32px;
     background: var(--color-white);
     border: 1px solid var(--color-offwhite);
     border-radius: var(--radius-md);
     transition: all 0.3s ease;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+}
+
+.project-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.project-link-icon {
+    font-size: 0.8rem;
+    color: var(--color-gray);
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .project-link-icon {
+    color: var(--color-main);
+    opacity: 1;
+    transform: translate(0, 0);
 }
 
 .project-card::before {
@@ -785,12 +809,14 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-top: auto;
 }
 
 .project-stack .tag {
     background: var(--color-lightgray);
     font-size: 0.8rem;
     padding: 4px 10px;
+    white-space: nowrap;
 }
 
 /* ===== Contact ===== */
