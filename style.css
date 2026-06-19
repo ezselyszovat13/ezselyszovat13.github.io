@@ -576,6 +576,10 @@ a:hover {
     font-weight: 600;
 }
 
+.skill-group:hover .tag.tag-primary {
+    background: var(--color-mint);
+}
+
 /* ===== Resume / Timeline ===== */
 .resume-section {
     background: var(--color-lightgray);
