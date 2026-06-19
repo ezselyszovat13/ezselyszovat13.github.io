@@ -343,20 +343,59 @@ def build_education(c, cy):
 def build_skills(c, cy):
     cy = section_header(c, cy, "SKILLS")
 
+    # Each skill is (name, is_primary). Primary skills mirror the green
+    # highlighted tags on the website and are rendered bold.
     skills = [
-        ("Languages",           "Java, Python, SQL, PHP, C++, C#, Kotlin"),
-        ("Frameworks & Stack",  "Spring, Spring Boot, Hibernate, Maven, Gradle, Laravel, Qt"),
-        ("Databases",           "PostgreSQL, MySQL, MS SQL Server, Oracle"),
-        ("Tooling & DevOps",    "Git, GitHub, Bitbucket, IntelliJ IDEA, Docker, Jenkins"),
-        ("Testing & Practices", "JUnit, Mockito, Clean Code, TDD, Code Review"),
-        ("Methodologies",       "Scrum, Agile, Mentoring, Pair Programming"),
+        ("Languages", [
+            ("Java", True), ("Python", True), ("SQL", False), ("PHP", False),
+            ("C++", False), ("C#", False), ("Kotlin", False),
+        ]),
+        ("Backend Frameworks", [
+            ("Spring", True), ("Spring Boot", True), ("Ktor", False),
+            ("FastAPI", False), ("Hibernate", False), ("Laravel", False),
+        ]),
+        ("Frontend & Build", [
+            ("Vue 3", True), ("Tailwind", False), ("Thymeleaf", False),
+            ("Qt", False), ("Maven", False), ("Gradle", False),
+        ]),
+        ("AI / ML", [
+            ("Claude Code", True), ("RAG", True), ("LLM", False),
+            ("Embeddings", False), ("Ollama", False), ("OCR", False),
+        ]),
+        ("Databases", [
+            ("PostgreSQL", True), ("MySQL", True), ("MS SQL Server", False),
+            ("Oracle", False), ("SQLite", False),
+        ]),
+        ("Tooling & DevOps", [
+            ("Git", True), ("GitHub", False), ("Bitbucket", False),
+            ("IntelliJ IDEA", False), ("Docker", False), ("Jenkins", False),
+        ]),
+        ("Testing & Practices", [
+            ("JUnit", True), ("Mockito", True), ("Clean Code", False),
+            ("TDD", False), ("Code Review", False),
+        ]),
+        ("Methodologies", [
+            ("Scrum", True), ("Agile", False), ("Mentoring", False),
+            ("Pair Programming", False),
+        ]),
     ]
     label_w = 42 * mm
+    size = 8
     for label, items in skills:
-        c.setFont(FB, 8); c.setFillColor(M)
+        c.setFont(FB, size); c.setFillColor(M)
         c.drawString(LEFT, cy, label.upper())
-        c.setFont(FR, 8); c.setFillColor(DG)
-        c.drawString(LEFT + label_w, cy, items.upper())
+
+        cur_x = LEFT + label_w
+        for i, (name, primary) in enumerate(items):
+            if i:
+                c.setFont(FR, size); c.setFillColor(DG)
+                c.drawString(cur_x, cy, ", ")
+                cur_x += c.stringWidth(", ", FR, size)
+            fnt = FB if primary else FR
+            col = B if primary else DG
+            c.setFont(fnt, size); c.setFillColor(col)
+            c.drawString(cur_x, cy, name.upper())
+            cur_x += c.stringWidth(name.upper(), fnt, size)
         cy -= 5.4 * mm
     return cy
 
