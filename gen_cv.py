@@ -35,7 +35,7 @@ MNT  = HexColor('#e9fff7')
 BORD = HexColor('#e0e0e0')
 
 # ── Section spacing ───────────────────────────────────────────────────────
-GAP_BETWEEN_SECTIONS = 9 * mm
+GAP_BETWEEN_SECTIONS = 8 * mm
 
 FR = FB = None
 
@@ -245,6 +245,29 @@ def build_header(c):
     return bottom - GAP_BETWEEN_SECTIONS
 
 
+# ── CERTIFICATIONS ─────────────────────────────────────────────────────────
+
+def build_certifications(c, cy):
+    cy = section_header(c, cy, "CERTIFICATIONS")
+
+    certs = [
+        ("Claude Certified Architect - Foundations (CCAR-F)", "Anthropic"),
+    ]
+
+    for title, issuer in certs:
+        tl_dot(c, LEFT, cy, current=True)
+
+        c.setFont(FB, 9.5); c.setFillColor(B)
+        c.drawString(LEFT + 6*mm, cy, title)
+        tw = c.stringWidth(title, FB, 9.5)
+        c.setFont(FB, 9.5); c.setFillColor(M)
+        c.drawString(LEFT + 6*mm + tw + 2*mm, cy, f"· {issuer}")
+
+        cy -= 3 * mm
+
+    return cy - GAP_BETWEEN_SECTIONS + 3*mm
+
+
 # ── WORK EXPERIENCE ────────────────────────────────────────────────────────
 
 def build_work_experience(c, cy):
@@ -254,6 +277,7 @@ def build_work_experience(c, cy):
         ("Oct 2025 – Present",  "Senior Backend Developer", "Adroit Group", {
             "lead": "Applying AI-powered development in a fully remote setup with projects like:",
             "bullets": [
+                "extending a logistics management platform with AI capabilities built on Retrieval-Augmented Generation (RAG),",
                 "extracting structured JSON from PDF invoices via OCR,",
                 "developing a RAG-based AI assistant for document Q&A,",
                 "scraping messages from Slack workspaces and Discord servers,",
@@ -402,7 +426,9 @@ def build_skills(c, cy):
 # ── Entry point ────────────────────────────────────────────────────────────
 
 def main():
-    out = r"C:\Programming projects\adroit\ezselyszovat13.github.io\ezsely_szovat_new_cv.pdf"
+    import sys
+    out = sys.argv[1] if len(sys.argv) > 1 else \
+        r"C:\Programming projects\adroit\ezselyszovat13.github.io\ezsely_szovat_new_cv.pdf"
     setup_fonts()
     c = pdf_c.Canvas(out, pagesize=A4)
     c.setTitle("Ézsely Szovát — CV")
@@ -410,6 +436,7 @@ def main():
     c.setSubject("Senior Backend Developer")
 
     cy = build_header(c)
+    cy = build_certifications(c, cy)
     cy = build_work_experience(c, cy)
     cy = build_education(c, cy)
     cy = build_skills(c, cy)

@@ -603,6 +603,23 @@ a:hover {
     color: var(--color-main);
 }
 
+.resume-section .section-lead {
+    margin-bottom: 32px;
+}
+
+.resume-certs {
+    margin-bottom: 56px;
+}
+
+.resume-certs .timeline h4 {
+    margin-bottom: 0;
+}
+
+.resume-certs .timeline li::before {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .timeline {
     list-style: none;
     margin: 0;
